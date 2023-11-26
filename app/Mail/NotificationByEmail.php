@@ -2,21 +2,17 @@
 
 namespace App\Mail;
 
-use App\Models\Curriculum;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Attachment;
-use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\{Address, Content, Envelope};
+use Illuminate\Mail\{Attachment, Mailable};
 use Illuminate\Queue\SerializesModels;
 
 class NotificationByEmail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-	/**
+    /**
      * Create a new message instance.
      *
      * @return void
@@ -46,21 +42,23 @@ class NotificationByEmail extends Mailable
      */
     public function content()
     {
-        return new Content(view: 'mail',
-        with: [
-            'first_name'=>'first_name',
-            'last_name'=>'last_name',
-            'phone'=>'phone',
-            'email'=>'email',
-            'street_address'=>'street_address',
-            'country'=>'country',
-            'city'=>'city',
-            'region'=>'region',
-            'postal_code'=>'postal_code',
-            'about'=>'about',
-            'ip_send'=>'ip_send',
-            'file_upload'=>'file_upload',
-        ]);
+        return new Content(
+            view: 'mail',
+            with: [
+                'first_name'     => 'first_name',
+                'last_name'      => 'last_name',
+                'phone'          => 'phone',
+                'email'          => 'email',
+                'street_address' => 'street_address',
+                'country'        => 'country',
+                'city'           => 'city',
+                'region'         => 'region',
+                'postal_code'    => 'postal_code',
+                'about'          => 'about',
+                'ip_send'        => 'ip_send',
+                'file_upload'    => 'file_upload',
+            ]
+        );
     }
 
     /**
