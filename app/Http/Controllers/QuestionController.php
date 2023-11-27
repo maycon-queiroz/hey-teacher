@@ -16,7 +16,7 @@ class QuestionController extends Controller
     public function store(): RedirectResponse
     {
         $attributes = request()->validate([
-            'question' => ['required']
+            'question' => ['required', 'min:10']
         ]);
 
         $this->question::query()->create($attributes);
