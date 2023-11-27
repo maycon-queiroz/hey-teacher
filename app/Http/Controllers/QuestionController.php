@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 
 class QuestionController extends Controller
 {
-    public function __construct(private Question $question)
+    public function __construct(private readonly Question $question)
     {
     }
 
@@ -19,7 +19,7 @@ class QuestionController extends Controller
                 'required',
                 'min:10',
                 new EndWithQuestionMarkRule(),
-            ]
+            ],
         ]);
 
         $this->question::query()->create($attributes);
