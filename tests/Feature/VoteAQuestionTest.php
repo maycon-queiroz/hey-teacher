@@ -8,7 +8,8 @@ it("Should be able like a question", function () {
 
     \Pest\Laravel\actingAs($user);
 
-    put(route('question.like', $question));
+    put(route('question.like', $question))
+    ->assertRedirect();
 
     \Pest\Laravel\assertDatabaseHas('votes', [
         'question_id' => $question->id,
