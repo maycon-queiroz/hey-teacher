@@ -65,11 +65,11 @@ class User extends Authenticatable
         );
 
         /** not user relations into model */
-        //        Vote::query()->create([
-        //            'question_id' => $question->id,
-        //            'user_id'     => $this->id,
-        //            'like'        => 1,
-        //            'unlike'      => 0,
-        //        ]);
+        //  Vote::query()->create([
+        //      'question_id' => $question->id,
+        //      'user_id'     => $this->id,
+        //      'like'        => 1,
+        //      'unlike'      => 0,
+        //  ]);
     }
 }
