@@ -19,11 +19,17 @@ class Vote extends Model
 
     protected $table = 'votes';
 
+    /**
+     * @return BelongsTo<Question, Vote>
+     */
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
     }
 
+    /**
+     * @return BelongsTo<User, Vote>
+     */
     public function user(): BelongsTo
     {
         return $this->BelongsTo(User::class);

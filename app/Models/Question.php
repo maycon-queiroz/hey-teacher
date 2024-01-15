@@ -19,6 +19,9 @@ class Question extends Model
     //    protected $fillable = ['question'];
     //    protected $guarded = [];
 
+    /**
+     * @return HasMany<Vote>
+     */
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
