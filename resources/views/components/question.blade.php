@@ -13,7 +13,7 @@
                 <span class="text-green-400">{{$question->likes}}</span>
             </button>
         </x-form>
-        <x-form :action="route('question.like', $question)" id="form-unlike-{{$question->id}}">
+        <x-form :action="route('question.unlike', $question)" id="form-unlike-{{$question->id}}">
             <button class="flex items-center space-x-1" id="form-unlike-{{$question->id}}">
                 <x-icons.thumb-down class="w-6 h-6 text-yellow-400 hover:text-yellow-300 cursor-pointer"/>
                 <span class="text-red-500">{{$question->unlikes}}</span>
