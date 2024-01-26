@@ -26,7 +26,7 @@ class NotificationByEmail extends Mailable
      *
      * @return Envelope
      */
-    public function envelope()
+    public function envelope(): Envelope
     {
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
@@ -40,7 +40,7 @@ class NotificationByEmail extends Mailable
      *
      * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content()
+    public function content(): Content
     {
         return new Content(
             view: 'mail',
@@ -64,9 +64,9 @@ class NotificationByEmail extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array
+     * @return array<string>
      */
-    public function attachments()
+    public function attachments(): array
     {
         return [
         ];
