@@ -17,6 +17,10 @@ class Question extends Model
 
     protected $table = 'questions';
 
+    protected $casts = [
+        'draft' => 'bool',
+    ];
+
     //    protected $fillable = ['question'];
     //    protected $guarded = [];
 
