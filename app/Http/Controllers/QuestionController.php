@@ -22,7 +22,11 @@ class QuestionController extends Controller
             ],
         ]);
 
-        $this->question::query()->create($attributes);
+        $this->question::query()
+            ->create([
+                'question' => $attributes['question'],
+                'draft' => true,
+            ]);
 
         return to_route('dashboard');
     }
