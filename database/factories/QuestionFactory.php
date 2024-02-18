@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class QuestionFactory extends Factory
         return [
             'question' => fake()->realText(50),
             'draft'    => fake()->boolean(false),
+            'created_by'    => User::factory()->create(),
         ];
     }
 }
