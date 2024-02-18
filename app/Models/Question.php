@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property mixed $question
- * @property mixed $id
+ * @property int $id
+ * @property string $question
+ * @property boolean $draft
  */
 class Question extends Model
 {
