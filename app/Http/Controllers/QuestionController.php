@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Question, User};
+use App\Models\User;
 use App\Rules\EndWithQuestionMarkRule;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class QuestionController extends Controller
 {
-    public function __construct(private readonly Question $question)
+    public function __construct()
     {
     }
 
-    public function index()
+    public function index(): View|RedirectResponse
     {
-        return view('question.index', ['questions' => user()->questions]);
+        $user = user();
+
+        if(is_null($user)) {
+            return to_route('dashboard');
+        }
+
+        /** @var User $user */
+        return view('question.index', ['questions' => $user->questions]);
     }
 
     public function store(): RedirectResponse
@@ -27,13 +35,13 @@ class QuestionController extends Controller
             ],
         ]);
 
-        /** @var User $user */
         $user = user();
 
         if(is_null($user)) {
             return to_route('dashboard');
         }
 
+        /** @var User $user */
         $user->questions()
             ->create([
                 'question' => $attributes['question'],
