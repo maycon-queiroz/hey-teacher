@@ -9,6 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -52,6 +57,14 @@ class User extends Authenticatable
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
+    }
+
+    /**
+     * @return HasMany<Question>
+     */
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class, 'created_by');
     }
 
     public function like(Question $question): void

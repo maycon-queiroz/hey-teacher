@@ -5,17 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 
 /**
- * @property mixed $question
- * @property mixed $id
+ * @property int $id
+ * @property int $created_by
+ * @property string $question
+ * @property boolean $draft
  */
 class Question extends Model
 {
     use HasFactory;
 
     protected $table = 'questions';
+
+    protected $casts = [
+        'draft' => 'bool',
+    ];
 
     //    protected $fillable = ['question'];
     //    protected $guarded = [];
@@ -26,6 +32,14 @@ class Question extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
+    }
+
+    /**
+     * @return BelongsTo<User, Question>
+     */
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function likes(): Attribute
