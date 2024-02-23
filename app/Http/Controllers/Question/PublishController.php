@@ -18,9 +18,9 @@ class PublishController extends Controller
     {
         $this->authorize('publish', $question);
 
-        $question->draft = true;
+        $question->draft = false;
         $question->save();
 
-       return back();
+        return back();
     }
 }
