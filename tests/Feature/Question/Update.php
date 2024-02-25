@@ -2,7 +2,7 @@
 
 use App\Models\{Question, User};
 
-use function Pest\Laravel\{actingAs, put};
+use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, put};
 
 it('should be able update a question', function () {
     $user     = User::factory()->create();
@@ -69,4 +69,47 @@ it('should make sure that only person who has created the question can update th
         ]
     )
         ->assertRedirect();
+});
+
+it("should be able to update a new question bigger than 255 characters", function () {
+    // Arrange :: preparar
+    $user     = User::factory()->create();
+    $question = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    // Act:: Agir
+    $request = put(route('question.update', $question), [
+        'question' => str_repeat('*', 260) . '?',
+    ]);
+
+    // Assert :: verificar
+    $request->assertRedirect();
+    assertDatabaseHas('questions', ['question' => str_repeat('*', 260) . '?']);
+});
+
+it("should check if ends with question mark ? on update", function () {
+    $user     = User::factory()->create();
+    $question = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    $request = put(route('question.update', $question), [
+        'question' => str_repeat('*', 10),
+    ]);
+
+    $request->assertSessionHasErrors(['question' => 'Are you sur that is a question? It is missing the question mark in the end.']);
+});
+
+it('should be at least 10 characters on update', function () {
+    $user     = User::factory()->create();
+    $question = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    $request = put(route('question.update', $question), [
+        'question' => str_repeat('*', 8) . '?',
+    ]);
+
+    $request->assertSessionHasErrors(['question' => __('validation.min.string', ['min' => 10, 'attribute' => 'question'])]);
 });
