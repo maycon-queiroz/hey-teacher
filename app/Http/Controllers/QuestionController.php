@@ -51,6 +51,8 @@ class QuestionController extends Controller
 
     public function edit(Question $question): Response
     {
+        $this->authorize('update', $question);
+
         return response()->view('question.edit', compact('question'), 302);
     }
 
