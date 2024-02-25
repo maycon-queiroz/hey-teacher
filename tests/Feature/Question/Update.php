@@ -20,3 +20,53 @@ it('should be able update a question', function () {
     expect($question->question)
         ->toBe('Updated questions?');
 });
+
+it('should make sure that only question with status Draft can be updated', function () {
+    $user             = User::factory()->create();
+    $questionNotDraft = Question::factory()->for($user, 'createdBy')->create(['draft' => false]);
+    $questionDraft    = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    put(
+        route('question.update', $questionNotDraft),
+        [
+            'question' => 'Updated questions?',
+        ]
+    )
+        ->assertForbidden();
+
+    put(
+        route('question.update', $questionDraft),
+        [
+            'question' => 'Updated questions?',
+        ]
+    )
+        ->assertRedirect();
+});
+
+it('should make sure that only person who has created the question can update the question', function () {
+    $rightUser = User::factory()->create();
+    $wrongUser = User::factory()->create();
+    $question  = Question::factory()->create(['created_by' => $rightUser->id]);
+
+    actingAs($wrongUser);
+
+    put(
+        route('question.update', $question->id),
+        [
+            'question' => 'Updated questions?',
+        ]
+    )
+        ->assertForbidden();
+
+    actingAs($rightUser);
+
+    put(
+        route('question.update', $question->id),
+        [
+            'question' => 'Updated questions?',
+        ]
+    )
+        ->assertRedirect();
+});

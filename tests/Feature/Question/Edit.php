@@ -38,7 +38,7 @@ it('should make sure that only question with status Draft can be edited', functi
         ->assertRedirect();
 });
 
-it('should make sure that only person who has created the question can update the question', function () {
+it('should make sure that only person who has created the question can edit the question', function () {
     $rightUser = User::factory()->create();
     $wrongUser = User::factory()->create();
     $question  = Question::factory()->create(['created_by' => $rightUser->id]);
