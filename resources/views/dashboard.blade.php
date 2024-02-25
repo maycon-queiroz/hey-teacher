@@ -13,5 +13,8 @@
             <x-question :question="$item" />
         @endforeach
 
+        <div class="mt-2.5">
+        {{$questions->links()}}
+        </div>
     </x-container>
 </x-app-layout>
