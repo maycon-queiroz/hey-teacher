@@ -2,7 +2,7 @@
 
 <div
     class="
-        dark:text-gray-400 p-4 w-full dark:bg-gray-800/50 mt-1 rounded
+        dark:text-gray-400 p-4 w-full dark:bg-gray-800/50 my-1 rounded
         border-b-2 border-blue-400/50 flex justify-between items-center"
 >
     <span>{{$question->question}}</span>
