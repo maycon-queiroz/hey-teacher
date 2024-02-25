@@ -11,5 +11,15 @@ it('should be able to open the question to edit', function () {
     actingAs($user);
 
     get(route('question.edit', $question))
-    ->assertSuccessful();
+    ->assertRedirect();
+});
+
+it('should return a view', function () {
+    $user     = User::factory()->create();
+    $question = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    get(route('question.edit', $question))
+        ->assertViewIs('question.edit');
 });

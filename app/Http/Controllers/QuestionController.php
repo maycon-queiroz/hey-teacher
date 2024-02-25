@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\{Question, User};
 use App\Rules\EndWithQuestionMarkRule;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\{RedirectResponse, Response};
 
 class QuestionController extends Controller
 {
@@ -49,9 +49,9 @@ class QuestionController extends Controller
         return back();
     }
 
-    public function edit(Question $question): void
+    public function edit(Question $question): Response
     {
-
+        return response()->view('question.edit', compact('question'), 302);
     }
 
     public function destroy(Question $question): RedirectResponse
