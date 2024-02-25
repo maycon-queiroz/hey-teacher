@@ -22,8 +22,8 @@ it("Should be able list all the questions", function () {
 });
 
 it('should paginate the result', function () {
-    $user      = User::factory()->create();
-    $questions = Question::factory()->count(20)->create();
+    $user = User::factory()->create();
+    Question::factory()->count(20)->create();
 
     // Act:: Agir
     actingAs($user);
@@ -31,3 +31,32 @@ it('should paginate the result', function () {
     get(route('dashboard'))
         ->assertViewHas('questions', fn ($value) => $value instanceof LengthAwarePaginator);
 });
+
+it(
+    'should order by like and unlike, most liked question should be at the top, most unliked questions should be in bottom',
+    function () {
+        $user       = User::factory()->create();
+        $secondUser = User::factory()->create();
+        Question::factory()->count(5)->create();
+
+        /** @var Question $mostLikedQuestion */
+        $mostLikedQuestion = Question::find(2);
+        $user->like($mostLikedQuestion);
+
+        /** @var Question $mostUnlikedQuestion */
+        $mostUnlikedQuestion = Question::find(5);
+        $secondUser->unlike($mostUnlikedQuestion);
+        $secondUser->like($mostLikedQuestion);
+
+        // Act:: Agir
+        actingAs($user);
+
+        get(route('dashboard'))
+            ->assertViewHas('questions', function ($questions) {
+                expect($questions->first()->id)->toBe(2)
+                    ->and($questions->last()->id)->toBe(5);
+
+                return true;
+            });
+    }
+);
