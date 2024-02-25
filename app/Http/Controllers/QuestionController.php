@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Question, User};
+use App\Models\{Question};
 use App\Rules\EndWithQuestionMarkRule;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\{RedirectResponse, Request, Response};
 
 class QuestionController extends Controller
 {
@@ -21,7 +21,6 @@ class QuestionController extends Controller
             return to_route('dashboard');
         }
 
-        /** @var User $user */
         return view('question.index', ['questions' => $user->questions]);
     }
 
@@ -41,7 +40,6 @@ class QuestionController extends Controller
             return to_route('dashboard');
         }
 
-        /** @var User $user */
         $user->questions()
             ->create([
                 'question' => $attributes['question'],
@@ -49,6 +47,31 @@ class QuestionController extends Controller
             ]);
 
         return back();
+    }
+
+    public function edit(Question $question): Response
+    {
+        $this->authorize('update', $question);
+
+        return response()->view('question.edit', compact('question'), 302);
+    }
+
+    public function update(Question $question, Request $request): RedirectResponse
+    {
+        $this->authorize('update', $question);
+
+        request()->validate([
+            'question' => [
+                'required',
+                'min:10',
+                new EndWithQuestionMarkRule(),
+            ],
+        ]);
+
+        $question->question = $request->get('question');
+        $question->save();
+
+        return  to_route('question.index');
     }
 
     public function destroy(Question $question): RedirectResponse

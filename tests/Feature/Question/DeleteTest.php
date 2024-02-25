@@ -18,7 +18,7 @@ it('should be able to delete a question', function () {
     assertDatabaseMissing('questions', ['id' => $question->id]);
 });
 
-it('should make sure that only person who has created the question can deleye the question', function () {
+it('should make sure that only person who has created the question can delete the question', function () {
     $rightUser = User::factory()->create();
     $wrongUser = User::factory()->create();
     $question  = Question::factory()->create(['created_by' => $rightUser->id]);
@@ -33,5 +33,4 @@ it('should make sure that only person who has created the question can deleye th
     delete(route('question.destroy', $question->id))
         ->assertRedirect();
     assertDatabaseMissing('questions', ['id' => $question->id]);
-
 });

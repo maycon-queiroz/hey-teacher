@@ -1,7 +1,8 @@
 @props([
     'label',
     'name',
-    'placeholder'
+    'placeholder',
+    'value'=> ''
 ])
 
 <div class="mb-4">
@@ -19,7 +20,7 @@
             dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
             dark:focus:border-blue-500"
         placeholder="Write your thoughts here..."
-    >{{old($name)}}</textarea>
+    >{{old($name, $value)}}</textarea>
     @error($name)
     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
         <span class="font-medium">Oh, snapp!</span> {{$message}}.
