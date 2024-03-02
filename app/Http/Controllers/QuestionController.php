@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\{Question};
 use App\Rules\EndWithQuestionMarkRule;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{RedirectResponse, Request, Response};
 
@@ -49,6 +50,9 @@ class QuestionController extends Controller
         return back();
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function edit(Question $question): Response
     {
         $this->authorize('update', $question);
@@ -56,6 +60,9 @@ class QuestionController extends Controller
         return response()->view('question.edit', compact('question'), 302);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(Question $question, Request $request): RedirectResponse
     {
         $this->authorize('update', $question);
@@ -74,10 +81,20 @@ class QuestionController extends Controller
         return  to_route('question.index');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Question $question): RedirectResponse
     {
         $this->authorize('destroy', $question);
 
+        $question->forceDelete();
+
+        return back();
+    }
+
+    public function archive(Question $question): RedirectResponse
+    {
         $question->delete();
 
         return back();
