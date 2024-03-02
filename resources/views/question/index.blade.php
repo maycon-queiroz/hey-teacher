@@ -36,6 +36,9 @@
                             <x-form put :action="route('question.publish', $question->id)">
                                 <button type="submit"  class="hover:underline text-blue-500">publish</button>
                             </x-form>
+                            <x-form patch :action="route('question.archive', $question->id)">
+                                <button type="submit"  class="hover:underline text-blue-500">Archive</button>
+                            </x-form>
                         </x-table.td>
                     </x-table.tr>
                 @endforeach
@@ -44,7 +47,9 @@
 
         <hr class="border-gray-700 my-4">
 
-        <div class="dark:text-gray-200 font-bold mt-4 space-y-4 uppercase ml-1.5">List Questions</div>
+        <div class="dark:text-gray-200 font-bold mt-4 space-y-4 uppercase ml-1.5">
+            List Questions
+        </div>
         <x-table>
             <x-table.thead>
                 <tr>
@@ -61,9 +66,37 @@
                             <x-form delete :action="route('question.destroy', $question->id)">
                                 <button type="submit"  class="hover:underline text-blue-500">Delete</button>
                             </x-form>
+                            <x-form patch :action="route('question.archive', $question->id)">
+                                <button type="submit"  class="hover:underline text-blue-500">Archive</button>
+                            </x-form>
                         </x-table.td>
                     </x-table.tr>
                 @endforeach
+            </tbody>
+        </x-table>
+
+        <div class="dark:text-gray-200 font-bold mt-4 space-y-4 uppercase ml-1.5">
+            Archived Questions
+        </div>
+        <x-table>
+            <x-table.thead>
+                <tr>
+                    <x-table.th>Question</x-table.th>
+                    <x-table.th>Actions</x-table.th>
+                </tr>
+            </x-table.thead>
+
+            <tbody>
+            @foreach($archivedQuestions as $question)
+                <x-table.tr>
+                    <x-table.td>{{$question->question}}</x-table.td>
+                    <x-table.td>
+                        <x-form patch :action="route('question.restore', $question->id)">
+                            <button type="submit"  class="hover:underline text-blue-500">Restore</button>
+                        </x-form>
+                    </x-table.td>
+                </x-table.tr>
+            @endforeach
             </tbody>
         </x-table>
     </x-container>
