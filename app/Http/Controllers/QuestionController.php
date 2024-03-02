@@ -93,8 +93,13 @@ class QuestionController extends Controller
         return back();
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function archive(Question $question): RedirectResponse
     {
+        $this->authorize('archive', $question);
+
         $question->delete();
 
         return back();
