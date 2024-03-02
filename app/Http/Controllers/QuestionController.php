@@ -104,4 +104,17 @@ class QuestionController extends Controller
 
         return back();
     }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function restore(int $id): RedirectResponse
+    {
+        $question = Question::withTrashed()->find($id);
+        $this->authorize('restore', $question);
+
+        $question->restore();
+
+        return back();
+    }
 }
