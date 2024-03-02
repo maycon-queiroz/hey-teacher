@@ -2,6 +2,7 @@
     'action',
     'post'=>'',
     'put'=>'',
+    'patch'=>'',
     'delete'=>'',
 ])
 
@@ -13,6 +14,10 @@
     @endif
     @if($put)
         @method('PUT')
+    @endif
+
+    @if($patch)
+        @method('PATCH')
     @endif
     @if($delete)
         @method('DELETE')

@@ -22,7 +22,10 @@ class QuestionController extends Controller
             return to_route('dashboard');
         }
 
-        return view('question.index', ['questions' => $user->questions]);
+        return view('question.index', [
+            'questions'         => $user->questions,
+            'archivedQuestions' => $user->questions()->onlyTrashed()->get(),
+        ]);
     }
 
     public function store(): RedirectResponse
