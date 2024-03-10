@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\{Question};
-use App\Rules\EndWithQuestionMarkRule;
+use App\Rules\{EndWithQuestionMarkRule, SameQuestionRule};
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{RedirectResponse, Request, Response};
@@ -35,6 +35,7 @@ class QuestionController extends Controller
                 'required',
                 'min:10',
                 new EndWithQuestionMarkRule(),
+                new SameQuestionRule(),
             ],
         ]);
 
