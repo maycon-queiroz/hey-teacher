@@ -21,8 +21,8 @@ class SameQuestionRule implements ValidationRule
         }
     }
 
-    private function validateRule(mixed $value): bool
+    private function validateRule(string $value): bool
     {
-        return Question::query()->where('question', $value)->exists();
+        return Question::whereQuestion($value)->exists();
     }
 }
