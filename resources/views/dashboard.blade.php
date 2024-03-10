@@ -14,7 +14,7 @@
         @endforeach
 
         <div class="mt-2.5">
-        {{$questions->links()}}
+        {{$questions->withQueryString()->links()}}
         </div>
     </x-container>
 </x-app-layout>
